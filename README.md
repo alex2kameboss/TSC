@@ -13,3 +13,4 @@ TSC labs sources
 - git config --global user.name "alex2kameboss"
 - git config --global --list
 - git config --global credential.helper store
+- test
