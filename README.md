@@ -6,3 +6,5 @@ TSC labs sources
 - verifica modelsim, simulare systemverilog si verificare caoacitati pt testare
 - instalare token pt git
 - studiaza link-uri slack
+
+# Lab2
