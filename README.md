@@ -13,4 +13,5 @@ TSC labs sources
 - git config --global user.name "alex2kameboss"
 - git config --global --list
 - git config --global credential.helper store
-- test
+- ssh-keygen -t rsa -b 4096 -C "palexandru2000@gmail.com"
+- git clone git@github.com:alex2kameboss/TSC.git
