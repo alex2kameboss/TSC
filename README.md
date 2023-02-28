@@ -8,3 +8,7 @@ TSC labs sources
 - studiaza link-uri slack
 
 # Lab2
+
+- git config --global user.email "palexandru2000@gmail.com"
+- git config --global user.name "alex2kameboss"
+- git config --global --list
