@@ -15,3 +15,8 @@ TSC labs sources
 - git config --global credential.helper store
 - ssh-keygen -t rsa -b 4096 -C "palexandru2000@gmail.com"
 - git clone git@github.com:alex2kameboss/TSC.git
+
+# Lab3 - tema
+- implementat modul care executa comenzile
+- adaugat camp nou cu rez
+- de facut modul de test
