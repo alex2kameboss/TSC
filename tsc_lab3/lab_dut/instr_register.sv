@@ -26,10 +26,10 @@ import instr_register_pkg::*;  // user-defined types are defined in instr_regist
   always_ff @(posedge clk, negedge reset_n)   // write into register
     if (!reset_n) begin
       foreach (iw_reg[i])
-        iw_reg[i] = '{opc:ZERO,default:0};  // reset to all zeros
+        iw_reg[i] <= '{ZERO,0,0,0};  // reset to all zeros
     end
     else if (load_en) begin
-      iw_reg[write_pointer] = '{opcode, operand_a, operand_b, result};
+      iw_reg[write_pointer] <= '{opcode, operand_a, operand_b, result};
     end
 
   assign ext_a = {{32{operand_a[31]}}, operand_a};
