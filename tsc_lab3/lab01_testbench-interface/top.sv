@@ -23,7 +23,8 @@ module top;
   */
 
   // instantiate testbench and connect ports
-  instr_register_test test (
+  instr_register_test #(.NUMBER_OF_TRANSANCTIONS(10), 
+                        .RND_CASE(1)) test (
     .i_tb_ifc(i_tb_ifc.master)
     /*.clk(test_clk),
     .load_en(load_en),

@@ -8,6 +8,8 @@
 
 module instr_register_test
   import instr_register_pkg::*;  // user-defined types are defined in instr_register_pkg.sv
+  #(parameter NUMBER_OF_TRANSANCTIONS = 5,
+  parameter RND_CASE = 0)
   (/*input  logic          test_clk,
    output logic          load_en,
    output logic          reset_n,
@@ -40,7 +42,7 @@ module instr_register_test
 
     $display("\nWriting values to register stack...");
     @(posedge i_tb_ifc.test_clk) i_tb_ifc.load_en = 1'b1;  // enable writing to register
-    repeat (10) begin // nr tranzactii
+    repeat (NUMBER_OF_TRANSANCTIONS) begin // nr tranzactii
       @(posedge i_tb_ifc.test_clk) randomize_transaction;
       @(negedge i_tb_ifc.test_clk) print_transaction;
     end
@@ -48,11 +50,14 @@ module instr_register_test
 
     // read back and display same three register locations
     $display("\nReading back the same register locations written...");
-    for (int i=0; i<10; i++) begin
+    for (int i=0; i<NUMBER_OF_TRANSANCTIONS; i++) begin
       // later labs will replace this loop with iterating through a
       // scoreboard to determine which addresses were written and
       // the expected values to be read back
-      @(posedge i_tb_ifc.test_clk) i_tb_ifc.read_pointer = $unsigned($random)%32;
+      if (RND_CASE == 0 || RND_CASE == 2)
+        @(posedge i_tb_ifc.test_clk) i_tb_ifc.read_pointer = i;
+      else
+        @(posedge i_tb_ifc.test_clk) i_tb_ifc.read_pointer = $unsigned($random)%32;
       @(negedge i_tb_ifc.test_clk) print_results;
     end
 
@@ -73,11 +78,14 @@ module instr_register_test
     // addresses of 0, 1 and 2.  This will be replaceed with randomizeed
     // write_pointer values in a later lab
     //
-    //static int temp = 0;
+    static int temp = 0;
     i_tb_ifc.operand_a     <= $random(seed)%16;                 // between -15 and 15
     i_tb_ifc.operand_b     <= $unsigned($random)%16;            // between 0 and 15
     i_tb_ifc.opcode        <= opcode_t'($unsigned($random)%8);  // between 0 and 7, cast to opcode_t type
-    i_tb_ifc.write_pointer <= $unsigned($random)%32;
+    if (RND_CASE == 0 || RND_CASE == 1)
+       i_tb_ifc.write_pointer <= temp++;
+    else
+      i_tb_ifc.write_pointer <= $unsigned($random)%32;
   endfunction: randomize_transaction
 
   function void print_transaction;
