@@ -19,4 +19,18 @@ TSC labs sources
 # Lab3 - tema
 - implementat modul care executa comenzile
 - adaugat camp nou cu rez
-- de facut modul de test
+- de facut modul de tes
+
+# Lab7 - tema
+- functie check result
+- primeste structura de iesire de la dut si o testeaza
+- in functie de operand_a, operand_b si operad va compara cu rez
+- numarar teste gresite
+- afisat mesaje cu trecut/picat
+
+# run_test.bat args
+- $0 nume fisier
+- $1 nr of trans
+- $2 rnd case
+- $3 seed
+- $4 gui/c
