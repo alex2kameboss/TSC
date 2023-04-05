@@ -9,6 +9,7 @@
 module instr_register_test
   import instr_register_pkg::*;  // user-defined types are defined in instr_register_pkg.sv
   #(parameter NUMBER_OF_TRANSANCTIONS = 5,
+  parameter seed = 555,
   parameter RND_CASE = 0)
   (/*input  logic          test_clk,
    output logic          load_en,
@@ -23,7 +24,6 @@ module instr_register_test
    tb_ifc.master i_tb_ifc
   );
 
-  int seed = 555;
 
   initial begin
     $display("\n\n***********************************************************");
