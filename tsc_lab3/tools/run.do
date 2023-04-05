@@ -21,7 +21,7 @@ if {$compile_on || [batch_mode] == 0} {
 }
 
 # Load project
-  eval vsim -novopt -quiet -nocoverage +notimingchecks +nowarnTSCALE -G/top/test/NUMBER_OF_TRANSANCTIONS=$2 -G/top/test/RND_CASE=$3 -G/top/test/seed=$4 -sva top
+  eval vsim -novopt -quiet -nocoverage +notimingchecks +nowarnTSCALE -G/top/test/NUMBER_OF_TRANSANCTIONS=$2 -G/top/test/RND_CASE=$3 -G/top/test/seed=$4 -G/top/test/TEST_NAME=$1 -sva top
 # eval vsim -novopt -quiet -coverage +code=bcesft +notimingchecks +nowarnTSCALE -sva top
 
 # Run log/wave commands
@@ -43,6 +43,5 @@ onbreak {
 }
 
 # Run/exit simulation
-puts $1
 run -all
 quit -sim
