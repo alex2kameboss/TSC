@@ -4,4 +4,5 @@ call clean.bat
 call build.bat
 ::========================================================================================
 cd ../sim
-vsim -gui -do run.do
+::vsim -gui -do run.do
+vsim -%4 -do "do run.do %5 %1 %2 %3"

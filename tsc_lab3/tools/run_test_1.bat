@@ -1,0 +1,1 @@
+call run_test.bat 10 1 10 c %0
