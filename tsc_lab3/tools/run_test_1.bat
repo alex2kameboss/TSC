@@ -1,1 +1,1 @@
-call run_test.bat 10 1 10 c %0
+call run_test.bat 10 0 10 c %1 %0
