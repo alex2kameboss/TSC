@@ -25,6 +25,8 @@ module instr_register_test
    tb_ifc.master i_tb_ifc
   );
 
+  int wrong = 0;
+  result_t result;
 
   initial begin
     $display("\n\n***********************************************************");
@@ -60,6 +62,7 @@ module instr_register_test
       else
         @(posedge i_tb_ifc.test_clk) i_tb_ifc.read_pointer = $unsigned($random)%32;
       @(negedge i_tb_ifc.test_clk) print_results;
+      check_result;
     end
 
     @(posedge i_tb_ifc.test_clk) ;
@@ -68,7 +71,11 @@ module instr_register_test
     $display(  "***  NEED TO VISUALLY VERIFY THAT THE OUTPUT VALUES     ***");
     $display(  "***  MATCH THE INPUT VALUES FOR EACH REGISTER LOCATION  ***");
     $display(  "***********************************************************\n");
-    $display("\nRunned test %s\n", TEST_NAME);
+    $display("\nRunned test %s", TEST_NAME);
+    if (wrong == 0)
+      $display("Result: test passed");
+    else
+      $display("Result: test failed");
     $finish;
   end
 
@@ -101,7 +108,25 @@ module instr_register_test
     $display("Read from register location %0d: ", i_tb_ifc.read_pointer);
     $display("  opcode = %0d (%s)", i_tb_ifc.instruction_word.opc, i_tb_ifc.instruction_word.opc.name);
     $display("  operand_a = %0d",   i_tb_ifc.instruction_word.op_a);
-    $display("  operand_b = %0d\n", i_tb_ifc.instruction_word.op_b);
+    $display("  operand_b = %0d", i_tb_ifc.instruction_word.op_b);
+    $display("  result = %0d\n", i_tb_ifc.instruction_word.rez);
   endfunction: print_results
+
+  function void check_result;
+    result = 'x;
+    unique case (i_tb_ifc.instruction_word.opc)
+      ZERO: result = 0;
+      PASSA: result = i_tb_ifc.instruction_word.op_b; // TODO: change this in order to pass tests
+      PASSB: result = i_tb_ifc.instruction_word.op_b;
+      ADD: result = i_tb_ifc.instruction_word.op_a + i_tb_ifc.instruction_word.op_b;
+      SUB: result = i_tb_ifc.instruction_word.op_a - i_tb_ifc.instruction_word.op_b;
+      MULT: result = i_tb_ifc.instruction_word.op_a * i_tb_ifc.instruction_word.op_b;
+      DIV: result = i_tb_ifc.instruction_word.op_a / i_tb_ifc.instruction_word.op_b;
+      MOD: result = i_tb_ifc.instruction_word.op_a % i_tb_ifc.instruction_word.op_a;
+    endcase
+
+    if (i_tb_ifc.instruction_word.rez != result)
+      wrong++;
+  endfunction: check_result
 
 endmodule: instr_register_test
