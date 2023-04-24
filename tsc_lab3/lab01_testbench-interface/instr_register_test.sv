@@ -28,7 +28,27 @@ module instr_register_test
   int wrong = 0;
   result_t result;
 
+    covergroup cover_alu;
+      coverpoint i_tb_ifc.operand_a {
+        bins values[] = {[-15:15]};
+      }
+      coverpoint i_tb_ifc.operand_b {
+        bins values[] = {[0:15]};
+      }
+      coverpoint i_tb_ifc.opcode {
+        bins values[] = {[0:7]};
+      }
+      coverpoint i_tb_ifc.write_pointer {
+        bins values[] = {[0:31]};
+      }
+      coverpoint i_tb_ifc.read_pointer {
+        bins values[] = {[0:31]};
+      }
+    endgroup
+
   initial begin
+    cover_alu cvg_inst = new();
+
     $display("\n\n***********************************************************");
     $display(    "***  THIS IS NOT A SELF-CHECKING TESTBENCH (YET).  YOU  ***");
     $display(    "***  NEED TO VISUALLY VERIFY THAT THE OUTPUT VALUES     ***");
@@ -76,6 +96,7 @@ module instr_register_test
       $display("Result: test passed");
     else
       $display("Result: test failed");
+    $display("Coverage %0.2f", cvg_inst.get_inst_coverage());
     $finish;
   end
 
